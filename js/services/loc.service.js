@@ -3,7 +3,8 @@ export const locService = {
     addLocation,
     removeLocationById,
     loadLocations,
-    updateLocDateById
+    updateLocDateById,
+    setLocations
 }
 
 import { storageService } from './storage-service.js'
@@ -52,4 +53,8 @@ function updateLocDateById(id) {
     var location = locs.find(loc => loc.id === id);
     location.updatedAt = utilService.convertMillisToDate(Date.now());
     storageService.save('locations', locs);
+}
+
+function setLocations(locations) {
+    locs = locations;
 }

@@ -12,7 +12,11 @@ window.onDeleteLocation = onDeleteLocation; ////////////
 window.onChangeName = onChangeName; ////////////
 
 function onInit() {
-    // renderTable(fakePlaces);
+    var locs = storageService.load('locations');
+    if (locs) {
+        locService.setLocations(locs);
+        renderTable(locs);
+    }
     mapService.initMap()
         .then((res) => {
             let infoWindow = new google.maps.InfoWindow({
@@ -20,10 +24,10 @@ function onInit() {
                 position: { lat: 32.0749831, lng: 34.9120554 },
             });
             res.addListener("click", (mapsMouseEvent) => {
-                // Close the current InfoWindow.
-
                 locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
+                onGetLocs();
                 console.log(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng()); ////////////
+                // Close the current InfoWindow.
                 infoWindow.close();
                 // Create a new InfoWindow.
                 infoWindow = new google.maps.InfoWindow({
@@ -40,7 +44,6 @@ function onInit() {
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
-    // locService.loadLocations();
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -65,7 +68,7 @@ function onGetLocs() {
     locService.getLocs()
         .then(locs => {
             console.log('Locations:', locs)
-            // onSortTable(locs); ///////////////
+                // onSortTable(locs); ///////////////
             renderTable(locs); ////////
             // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
@@ -118,11 +121,11 @@ function renderTable(locs) {
 }
 /////////////////////////////////////////
 var fakePlaces = [
-    { id: 1, name: 'Greatplace', lat: 32.947104, lng: 34.832384, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
-    { id: 2, name: 'white', lat: 32.047104, lng: 33.132222, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
-    { id: 3, name: 'notnow', lat: 31.147104, lng: 34.800000, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
-    { id: 4, name: 'asdwe', lat: 32.547104, lng: 33.932384, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
-]/////////////////////////////////////////////
+        { id: 1, name: 'Greatplace', lat: 32.947104, lng: 34.832384, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
+        { id: 2, name: 'white', lat: 32.047104, lng: 33.132222, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
+        { id: 3, name: 'notnow', lat: 31.147104, lng: 34.800000, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
+        { id: 4, name: 'asdwe', lat: 32.547104, lng: 33.932384, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
+    ] /////////////////////////////////////////////
 
 // REMINDER: I think its all needs to be done with promises just like onGetLocs not 100% sure tho
 function onDeleteLocation(id) {
