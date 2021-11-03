@@ -8,6 +8,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onDeleteLocation = onDeleteLocation;
+window.onGetCoordByAddress = onGetCoordByAddress;
 
 function onInit() {
     var locs = storageService.load('locations');
@@ -112,25 +113,38 @@ function onDeleteLocation(id) {
     onGetLocs();
 }
 
-
-function onUserNameInput() {
-
+function onGetCoordByAddress() {
+    var address = document.querySelector('.address-input').value;
+    console.log(address);
+    if (!address) return;
+    mapService.getCoordByAddress(address)
+        .then(res => {
+            onPanTo(res.lat, res.lng);
+            locService.addLocation(address, res.lat, res.lng, 'windy');
+            onGetLocs();
+        })
+        .catch(console.log)
 }
 
-function onAskName() {
-    //opens modal
-    return Promise.resolve
-}
 
-function onSetName() {
-    onAskName()
-        .then(name => { name })
-    locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold')
-}
+// function onUserNameInput() {
 
-function toggleModal() {
-    document.querySelector('.modal');
-}
+// }
+
+// function onAskName() {
+//     //opens modal
+//     return Promise.resolve
+// }
+
+// function onSetName() {
+//     onAskName()
+//         .then(name => { name })
+//     locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold')
+// }
+
+// function toggleModal() {
+//     document.querySelector('.modal');
+// }
 
 
 
