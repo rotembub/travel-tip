@@ -49,3 +49,7 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
+
+`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCgVxgFrhelEWoUrYr9_O6ucbx63KpU8F8`
+
+// results[0].geometry.location
