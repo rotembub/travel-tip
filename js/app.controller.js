@@ -37,7 +37,7 @@ function onInit() {
                 infoWindow = new google.maps.InfoWindow({
                     position: mapsMouseEvent.latLng,
                 });
-                // Evgeny I put these next lines of code so we wont have that annoying lil window opens everytime we click on the map
+                // Evgeny I put these next lines of code in a comment so we wont have that annoying lil window opens everytime we click on the map
 
                 // infoWindow.setContent(
                 //     JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
