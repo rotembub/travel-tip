@@ -12,7 +12,6 @@ window.onGetCoordByAddress = onGetCoordByAddress;
 window.onCopyLink = onCopyLink;
 
 function onInit() {
-    loadCurrLocationFromURL();
     var locs = storageService.load('locations');
     if (locs) {
         locService.setLocations(locs);
@@ -24,6 +23,7 @@ function onInit() {
                 content: "Click the map to get Lat/Lng!",
                 position: { lat: 32.0749831, lng: 34.9120554 },
             });
+            loadCurrLocationFromURL();
             res.addListener("click", (mapsMouseEvent) => {
                 onAddMarker(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng());
                 locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
@@ -37,6 +37,7 @@ function onInit() {
                     JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
                 );
                 infoWindow.open(res);
+
             });
 
 
@@ -156,7 +157,7 @@ function onCopyLink() {
 
 // function onSetName() {
 //     onAskName()
-//         .then(name => { name })
+//         .then(name => { name }) '
 //     locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold')
 // }
 
