@@ -160,17 +160,8 @@ function loadCurrLocationFromURL() {
     const lng = splittedUrl[2];
     console.log('lat', lat);
     console.log('lng', lng);
-    const params = new URLSearchParams(window.location.search);
-    console.log('params', params);
-    console.log('has lat : ' + params.has('lat'));
-    console.log('has lng : ' + params.has('lng'));
-    if (params.has('lat') && params.has('lng')) {
-        const lat = +params.get('lat');
-        const lng = +params.get('lng');
-        console.log('lat', lat);
-        console.log('lng', lng);
-        onPanTo(lat, lng);
-    }
+    if (!lat || !lng) return;
+    onPanTo(lat, lng);
 }
 
 // modal
