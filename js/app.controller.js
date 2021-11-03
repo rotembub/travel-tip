@@ -7,7 +7,7 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
-window.onDeleteLocation = onDeleteLocation; 
+window.onDeleteLocation = onDeleteLocation;
 
 function onInit() {
     var locs = storageService.load('locations');
@@ -22,9 +22,9 @@ function onInit() {
                 position: { lat: 32.0749831, lng: 34.9120554 },
             });
             res.addListener("click", (mapsMouseEvent) => {
+                onAddMarker(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng());
                 locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
                 onGetLocs();
-                console.log(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng()); ////////////
                 // Close the current InfoWindow.
                 infoWindow.close();
                 infoWindow = new google.maps.InfoWindow({
@@ -51,9 +51,9 @@ function getPosition() {
     })
 }
 
-function onAddMarker() {
+function onAddMarker(lat, lng) {
     console.log('Adding a marker');
-    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
+    mapService.addMarker({ lat, lng });
 }
 
 function onGetLocs() {
@@ -65,7 +65,7 @@ function onGetLocs() {
     locService.getLocs()
         .then(locs => {
             console.log('Locations:', locs)
-            renderTable(locs); 
+            renderTable(locs);
             // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
@@ -100,7 +100,6 @@ function renderTable(locs) {
        <td>${location.lng}</td>
        <td>${location.weather}</td>
        <td>${location.createdAt}</td>
-       <td>${location.updatedAt}</td>
        <td><button onclick="onPanTo(${location.lat},${location.lng})">Go To!</td>
        <td><button onclick="onDeleteLocation('${location.id}')">Delete</td>
        </tr> 
