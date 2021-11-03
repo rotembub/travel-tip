@@ -156,8 +156,8 @@ function loadCurrLocationFromURL() {
     // ?lat=32.072176?lng=34.808871/
     var urlStr = window.location.search;
     var splittedUrl = urlStr.split('?');
-    const lat = splittedUrl[1];
-    const lng = splittedUrl[2];
+    const lat = splittedUrl[1].split('=')[1];
+    const lng = splittedUrl[2].split('=')[1];
     console.log('lat', lat);
     console.log('lng', lng);
     if (!lat || !lng) return;
