@@ -105,8 +105,8 @@ function renderTable(locs) {
        <tr>
        <td>${location.id}</td>
        <td>${location.name}</td>
-       <td>${location.lat}</td>
-       <td>${location.lng}</td>
+       <td>${location.lat.toFixed(2)}</td>
+       <td>${location.lng.toFixed(2)}</td>
        <td>${location.weather}</td>
        <td>${location.createdAt}</td>
        <td><button onclick="onPanTo(${location.lat},${location.lng})">Go To!</td>
