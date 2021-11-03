@@ -10,6 +10,9 @@ window.onGetUserPos = onGetUserPos;
 window.onDeleteLocation = onDeleteLocation;
 window.onGetCoordByAddress = onGetCoordByAddress;
 window.onCopyLink = onCopyLink;
+window.onUserNameInput = onUserNameInput;
+
+var gResolve;
 
 function onInit() {
     var locs = storageService.load('locations');
@@ -25,8 +28,9 @@ function onInit() {
             });
             res.addListener("click", (mapsMouseEvent) => {
                 onAddMarker(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng());
-                locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
+                // locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
                 onGetLocs();
+                onSetName(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng());
                 // Close the current InfoWindow.
                 infoWindow.close();
                 infoWindow = new google.maps.InfoWindow({
@@ -141,29 +145,8 @@ function onCopyLink() {
         .catch(err => {
             console.log('err!!!', err);
         })
-        /* Copy the text inside the text field */
+    /* Copy the text inside the text field */
 }
-
-
-
-// function onUserNameInput() {
-
-// }
-
-// function onAskName() {
-//     //opens modal
-//     return Promise.resolve
-// }
-
-// function onSetName() {
-//     onAskName()
-//         .then(name => { name }) '
-//     locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold')
-// }
-
-// function toggleModal() {
-//     document.querySelector('.modal');
-// }
 
 function loadCurrLocationFromURL() {
     const params = new URLSearchParams(window.location.search);
@@ -175,6 +158,41 @@ function loadCurrLocationFromURL() {
         console.log('lng', lng);
         onPanTo(lat, lng);
     }
+}
+
+// modal
+function onUserNameInput(confirm) {
+    if (!confirm) {
+        toggleModal();
+        return;
+    }
+    var name = document.querySelector('.modal input').value;
+    if (!name) return;
+    gResolve(name);
+    toggleModal();
+}
+
+function onAskName() {
+    //opens modal
+    toggleModal();
+    return new Promise((resolve, reject) => {
+        gResolve = resolve;
+    })
+}
+
+function onSetName(lat, lng) {
+    onAskName()
+        .then(name => {
+            locService.addLocation(name, lat, lng, 'cold');
+            onGetLocs(); // need to change to render later
+        })
+        .catch(err => {
+            console.log('ERROR:', err);
+        })
+}
+
+function toggleModal() {
+    document.querySelector('.modal').classList.toggle('show');
 }
 
 
