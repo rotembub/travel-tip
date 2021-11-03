@@ -144,7 +144,7 @@ function onCopyLink() {
             const lat = pos.coords.latitude;
             const lng = pos.coords.longitude;
             console.log('lat', lat);
-            navigator.clipboard.writeText(`https://rotembub.github.io/travel-tip/?lat=${lat}?lng=${lng}/`);
+            navigator.clipboard.writeText(`https://rotembub.github.io/travel-tip/?lat=${lat}?lng=${lng}`);
         })
         .catch(err => {
             console.log('err!!!', err);
@@ -153,9 +153,13 @@ function onCopyLink() {
 }
 
 function loadCurrLocationFromURL() {
-    var str = window.location.search;
-    console.log('str', str);
-
+    // ?lat=32.072176?lng=34.808871/
+    var urlStr = window.location.search;
+    var splittedUrl = urlStr.split('?');
+    const lat = splittedUrl[1];
+    const lng = splittedUrl[2];
+    console.log('lat', lat);
+    console.log('lng', lng);
     const params = new URLSearchParams(window.location.search);
     console.log('params', params);
     console.log('has lat : ' + params.has('lat'));
