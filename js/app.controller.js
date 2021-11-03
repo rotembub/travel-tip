@@ -15,7 +15,6 @@ window.onUserNameInput = onUserNameInput;
 var gResolve;
 
 function onInit() {
-    console.log('Init....')
     var locs = storageService.load('locations');
     if (locs) {
         locService.setLocations(locs);
@@ -158,9 +157,6 @@ function loadCurrLocationFromURL() {
     var splittedUrl = urlStr.split('?');
     const lat = splittedUrl[1].split('=')[1];
     const lng = splittedUrl[2].split('=')[1];
-    console.log('lat', lat);
-    console.log('lng', lng);
-    console.log('true', true);
     if (!lat || !lng) return;
     onPanTo(lat, lng);
 }

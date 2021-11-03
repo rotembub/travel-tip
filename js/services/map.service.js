@@ -14,9 +14,9 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             console.log('google available');
             return gMap = new google.maps.Map(
                 document.querySelector('#map'), {
-                center: { lat, lng },
-                zoom: 15
-            })
+                    center: { lat, lng },
+                    zoom: 15
+                })
             console.log('Map!', gMap);
 
         })
@@ -27,6 +27,7 @@ function addMarker(loc) {
     var marker = new google.maps.Marker({
         position: loc,
         map: gMap,
+        icon: 'https://maps.google.com/mapfiles/kml/shapes/library_maps.png',
         title: 'Hello World!'
     });
     return marker;
