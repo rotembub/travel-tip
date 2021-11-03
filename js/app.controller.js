@@ -23,7 +23,6 @@ function onInit() {
                 content: "Click the map to get Lat/Lng!",
                 position: { lat: 32.0749831, lng: 34.9120554 },
             });
-            loadCurrLocationFromURL();
             res.addListener("click", (mapsMouseEvent) => {
                 onAddMarker(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng());
                 locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
@@ -43,6 +42,7 @@ function onInit() {
 
             console.log(res);
             console.log('Map is ready');
+            loadCurrLocationFromURL();
         })
         .catch(() => console.log('Error: cannot init map'));
 }
