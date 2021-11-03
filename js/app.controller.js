@@ -148,10 +148,13 @@ function onCopyLink() {
         .catch(err => {
             console.log('err!!!', err);
         })
-    /* Copy the text inside the text field */
+        /* Copy the text inside the text field */
 }
 
 function loadCurrLocationFromURL() {
+    var str = window.location.search;
+    console.log('str', str);
+
     const params = new URLSearchParams(window.location.search);
     console.log('params', params);
     console.log('has lat : ' + params.has('lat'));
