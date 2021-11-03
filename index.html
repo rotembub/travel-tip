@@ -13,24 +13,24 @@
     <h2>Test</h2>
     <div id="map" style="width: 100%; height: 400px;" onclick="onMapClick(event)"></div>
     <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
+    <button onclick="onGetUserPos()" class="btn-user-pos">My Location</button>
     <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-    <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
+    <button onclick="onPanTo()" class="btn-pan">Pan Map to Address</button>
 
     <p>You are at: <span class="user-pos"></span></p>
-    <p>Locations: <span class="locs"></span></p>
+    <!-- <p>Locations: <span class="locs"></span></p> -->
 
     <table>
         <thead>
             <tr>
-                <th onclick="onSetSort(this.id)" id="Id" data-trans="id">id</th>
-                <th onclick="onSetSort(this.id)" id="Name" data-trans="name">Name</th>
-                <th onclick="onSetSort(this.id)" id="Lat" data-trans="lat">Lat</th>
-                <th onclick="onSetSort(this.id)" id="Lng" data-trans="lng">Lng</th>
-                <th onclick="onSetSort(this.id)" id="Weather" data-trans="weather">Weather</th>
-                <th onclick="onSetSort(this.id)" id="Created" data-trans="createdAt">Created</th>
-                <th onclick="onSetSort(this.id)" id="UpdatedAt" data-trans="updatedAt">Updated</th>
-                <th colspan="3" data-trans="actions">Actions</th>
+                <th>id</th>
+                <th>Name</th>
+                <th>Lat</th>
+                <th>Lng</th>
+                <th>Weather</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th colspan="2">Actions</th>
             </tr>
         </thead>
         <tbody class="table-details"></tbody>
