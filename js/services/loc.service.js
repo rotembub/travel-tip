@@ -25,6 +25,7 @@ function getLocs() {
 function addLocation(id, name, lat, lng, weather, createdAt, updatedAt) {
     locs.push({ id, name, lat, lng, weather, createdAt, updatedAt });
     storageService.save('locations', locs)
+    console.log(locs);
 }
 
 function removeLocationById(id) {
