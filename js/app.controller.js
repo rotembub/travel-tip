@@ -7,9 +7,11 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
-window.onDeleteLocation = onDeleteLocation; 
+window.onDeleteLocation = onDeleteLocation;
+window.onCopyLink = onCopyLink;
 
 function onInit() {
+    loadCurrLocationFromURL();
     var locs = storageService.load('locations');
     if (locs) {
         locService.setLocations(locs);
@@ -65,7 +67,7 @@ function onGetLocs() {
     locService.getLocs()
         .then(locs => {
             console.log('Locations:', locs)
-            renderTable(locs); 
+            renderTable(locs);
             // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
@@ -108,9 +110,24 @@ function renderTable(locs) {
     });
     document.querySelector('.table-details').innerHTML = strHtml.join('');
 }
+
 function onDeleteLocation(id) {
     locService.removeLocationById(id);
     onGetLocs();
+}
+
+function onCopyLink() {
+    getPosition()
+        .then(pos => {
+            console.log('User position is:', pos.coords);
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            navigator.clipboard.writeText(`https://rotembub.github.io/travel-tip/?lat=${lat}?lng=${lng}`);
+        })
+        .catch(err => {
+            console.log('err!!!', err);
+        })
+        /* Copy the text inside the text field */
 }
 
 
@@ -133,10 +150,14 @@ function toggleModal() {
     document.querySelector('.modal');
 }
 
-
-
-
-
+function loadCurrLocationFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('lat') || params.has('lng')) {
+        const lat = params.get('lat');
+        const lng = params.get('lng');
+        onPanTo(lat, lng);
+    }
+}
 
 
 
