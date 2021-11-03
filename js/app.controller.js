@@ -68,10 +68,12 @@ function onGetLocs() {
 function onGetUserPos() {
     getPosition()
         .then(pos => {
-            onPanTo(pos.coods.latitude.pos.coods.longitude)
             console.log('User position is:', pos.coords);
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
             document.querySelector('.user-pos').innerText =
-                `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
+                `Latitude: ${lat} - Longitude: ${lng}`
+            onPanTo(lat, lng);
         })
         .catch(err => {
             console.log('err!!!', err);
