@@ -12,6 +12,7 @@ window.onGetCoordByAddress = onGetCoordByAddress;
 window.onCopyLink = onCopyLink;
 
 function onInit() {
+    console.log('Init....')
     var locs = storageService.load('locations');
     if (locs) {
         locService.setLocations(locs);
