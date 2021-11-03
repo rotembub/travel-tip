@@ -22,15 +22,6 @@ function getLocs() {
     });
 }
 
-addLocation(111, 'asd', 123.123, 325.321, 123, Date.now(), Date.now());
-addLocation(222, 'asd', 123.123, 325.321, 123, Date.now(), Date.now());
-addLocation(333, 'asd', 123.123, 325.321, 123, Date.now(), Date.now());
-addLocation(444, 'asd', 123.123, 325.321, 123, Date.now(), Date.now());
-addLocation(555, 'asd', 123.123, 325.321, 123, Date.now(), Date.now());
-console.log(locs);
-removeLocationById(333);
-console.log(locs)
-
 function addLocation(id, name, lat, lng, weather, createdAt, updatedAt) {
     locs.push({ id, name, lat, lng, weather, createdAt, updatedAt });
     storageService.save('locations', locs)
