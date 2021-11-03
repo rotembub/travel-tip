@@ -15,6 +15,7 @@ window.onUserNameInput = onUserNameInput;
 var gResolve;
 
 function onInit() {
+    console.log('Init....')
     var locs = storageService.load('locations');
     if (locs) {
         locService.setLocations(locs);
@@ -151,6 +152,8 @@ function onCopyLink() {
 function loadCurrLocationFromURL() {
     const params = new URLSearchParams(window.location.search);
     console.log('params', params);
+    console.log('has lat : ' + params.has('lat'));
+    console.log('has lng : ' + params.has('lng'));
     if (params.has('lat') && params.has('lng')) {
         const lat = +params.get('lat');
         const lng = +params.get('lng');
