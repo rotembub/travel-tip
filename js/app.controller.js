@@ -1,5 +1,6 @@
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
+import { storageService } from './services/storage-service.js'
 
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
@@ -11,7 +12,7 @@ window.onDeleteLocation = onDeleteLocation; ////////////
 window.onChangeName = onChangeName; ////////////
 
 function onInit() {
-    renderTable(fakePlaces);
+    // renderTable(fakePlaces);
     mapService.initMap()
         .then((res) => {
             let infoWindow = new google.maps.InfoWindow({
@@ -20,7 +21,7 @@ function onInit() {
             });
             res.addListener("click", (mapsMouseEvent) => {
                 // Close the current InfoWindow.
-                
+
                 locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
                 console.log(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng()); ////////////
                 infoWindow.close();
@@ -56,12 +57,17 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
+    var locations = storageService.load('locations');
+    if (locations) {
+        renderTable(locations);
+        return;
+    }
     locService.getLocs()
         .then(locs => {
             console.log('Locations:', locs)
             // onSortTable(locs); ///////////////
             renderTable(locs); ////////
-            document.querySelector('.locs').innerText = JSON.stringify(locs)
+            // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
 
@@ -103,8 +109,8 @@ function renderTable(locs) {
        <td>${location.createdAt}</td>
        <td>${location.updatedAt}</td>
        <td><button onclick="onPanTo(${location.lat},${location.lng})">Go To!</td>
-       <td><button onclick="onDeleteLocation(${location.id})">Delete</td>
-       <td><button onclick="onChangeName(${location.id})">Change Name</td>
+       <td><button onclick="onDeleteLocation('${location.id}')">Delete</td>
+       <td><button onclick="onChangeName('${location.id}')">Change Name</td>
        </tr> 
        `
     });
@@ -125,7 +131,7 @@ function onDeleteLocation(id) {
 }
 
 function onChangeName(id) {
-    locService.changeNameById(id); //DOESNT EXIST YET // might need to be a promise 
+    locService.updateLocDateById(id);
 }
 
 
@@ -162,52 +168,59 @@ function onSortTable(locs) {
     renderTable(locs)
 }
 
-// userNamechaoaasdasd
 
-// function onAskName() {
-//     //opens modal
-//     return Promise.resolve
+
+function onUserNameInput() {
+
+}
+
+function onAskName() {
+    //opens modal
+    return Promise.resolve
+}
+
+function onSetName() {
+    onAskName()
+        .then(name => { name })
+    locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold')
+}
+
+function toggleModal() {
+    document.querySelector('.modal');
+}
+
+
+
+
+
+
+
+
+
+
+
+// function onDecision(decision) {
+//     gResolve(decision);
+//     toggleDeleteModal();
 // }
 
-// function onSetName() {
-//     onAskName()
-//         .then(name => { name })
-//         locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold')
+// function askUser() {
+//     toggleDeleteModal();
+//     return new Promise((resolve, reject) => {
+//         gResolve = resolve;
+//     })
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-function onDecision(decision) {
-    gResolve(decision);
-    toggleDeleteModal();
-}
-
-function askUser() {
-    toggleDeleteModal();
-    return new Promise((resolve, reject) => {
-        gResolve = resolve;
-    })
-}
-
-function onDeleteHistory() {
-    askUser()
-        .then(decision => {
-            if (decision) {
-                console.log('Deleting history');
-                gSearches = [];
-                renderSearchWords();
-            } else console.log('History kept!');
-        })
-        .catch(err => {
-            console.log('Error:', err);
-        })
-}
+// function onDeleteHistory() {
+//     askUser()
+//         .then(decision => {
+//             if (decision) {
+//                 console.log('Deleting history');
+//                 gSearches = [];
+//                 renderSearchWords();
+//             } else console.log('History kept!');
+//         })
+//         .catch(err => {
+//             console.log('Error:', err);
+//         })
+// }
