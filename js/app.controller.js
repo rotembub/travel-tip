@@ -167,6 +167,7 @@ function onCopyLink() {
 
 function loadCurrLocationFromURL() {
     const params = new URLSearchParams(window.location.search);
+    console.log('params', params);
     if (params.has('lat') && params.has('lng')) {
         const lat = +params.get('lat');
         const lng = +params.get('lng');
