@@ -7,15 +7,32 @@
     src: url(/fonts/Poppins-Light.ttf);
 }
 
+header{
+    background-color: coral;
+    font-size: x-large;
+}
+
 body{
-    background-color: rgb(144, 131, 124);
+    background-color: rgb(76, 76, 98);
     text-align: center;
     font-family: Poppins;
 }
 
+button{
+    background-color: coral;
+    border: none;
+}
+button:hover{
+    cursor: pointer;
+}
+
 table , th ,td ,tr{
+    color: white;
     border: 1px solid black;
     border-collapse: collapse;
+}
+td{
+    padding: 5px;
 }
 
 main{
@@ -26,6 +43,10 @@ main{
 
 .btns{
     margin-top: 20px;
+}
+
+footer{
+    background-color: coral;
 }
 
 .modal{
@@ -48,8 +69,7 @@ main{
 }
 .modal button{
     margin: 10px;
-    background-color: white;
-    border: none;
+    border: 1px white solid;
 }
 
 .show{
