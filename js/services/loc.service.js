@@ -7,7 +7,7 @@ export const locService = {
     setLocations
 }
 
-import { storageService } from './storage-service.js'
+import { storageService } from './storage.service.js'
 import { utilService } from './util.service.js'
 // was const
 var locs = [
