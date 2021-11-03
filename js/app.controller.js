@@ -160,6 +160,7 @@ function loadCurrLocationFromURL() {
     const lng = splittedUrl[2].split('=')[1];
     console.log('lat', lat);
     console.log('lng', lng);
+    console.log('true', true);
     if (!lat || !lng) return;
     onPanTo(lat, lng);
 }
