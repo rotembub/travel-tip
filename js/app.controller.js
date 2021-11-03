@@ -7,8 +7,11 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onMapClick = onMapClick; ////////////
+window.onDeleteLocation = onDeleteLocation; ////////////
+window.onChangeName = onChangeName; ////////////
 
 function onInit() {
+    renderTable(fakePlaces);
     mapService.initMap()
         .then((res) => {
             let infoWindow = new google.maps.InfoWindow({
@@ -17,7 +20,8 @@ function onInit() {
             });
             res.addListener("click", (mapsMouseEvent) => {
                 // Close the current InfoWindow.
-                locService.addLocation(7, prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold', 'now', 'now');
+                
+                locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
                 console.log(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng()); ////////////
                 infoWindow.close();
                 // Create a new InfoWindow.
@@ -55,6 +59,8 @@ function onGetLocs() {
     locService.getLocs()
         .then(locs => {
             console.log('Locations:', locs)
+            // onSortTable(locs); ///////////////
+            renderTable(locs); ////////
             document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
@@ -72,13 +78,134 @@ function onGetUserPos() {
         })
 }
 
-function onPanTo(lat,lng) {
+function onPanTo(lat, lng) {
     console.log('Panning the Map');
     mapService.panTo(lat, lng);
 }
-
+// make it better:
 function onMapClick(ev) {
     console.log('hi im here');
     console.log(ev);
-    // console.log(infoWindow.mapsMouseEvent.latLng.lat(), infoWindow.mapsMouseEvent.latLng.lng());
+
+}
+
+function renderTable(locs) {
+    const strHtml = locs.map(location => {
+        return `
+       <tr>
+       <td>${location.id}</td>
+       <td>${location.name}</td>
+       <td>${location.lat}</td>
+       <td>${location.lng}</td>
+       <td>${location.weather}</td>
+       <td>${location.createdAt}</td>
+       <td>${location.updatedAt}</td>
+       <td><button onclick="onPanTo(${location.lat},${location.lng})">Go To!</td>
+       <td><button onclick="onDeleteLocation(${location.id})">Delete</td>
+       <td><button onclick="onChangeName(${location.id})">Change Name</td>
+       </tr> 
+       `
+    });
+    document.querySelector('.table-details').innerHTML = strHtml.join('');
+}
+/////////////////////////////////////////
+var fakePlaces = [
+    { id: 1, name: 'Greatplace', lat: 32.947104, lng: 34.832384, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
+    { id: 2, name: 'white', lat: 32.047104, lng: 33.132222, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
+    { id: 3, name: 'notnow', lat: 31.147104, lng: 34.800000, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
+    { id: 4, name: 'asdwe', lat: 32.547104, lng: 33.932384, weather: 'cold', createdAt: 'today', updatedAt: 'now' },
+]/////////////////////////////////////////////
+
+// REMINDER: I think its all needs to be done with promises just like onGetLocs not 100% sure tho
+function onDeleteLocation(id) {
+    locService.removeLocationById(id); // might need to be a promise 
+    onGetLocs();
+}
+
+function onChangeName(id) {
+    locService.changeNameById(id); //DOESNT EXIST YET // might need to be a promise 
+}
+
+
+
+
+function onSortTable(locs) {
+    // var locs = locService.getLocs()
+    switch (gSortBy) {
+        case 'Id':
+            locs.sort((a, b) => { a.id < b.id });
+            break;
+        case 'Name':
+            locs.sort((a, b) => {
+                if ((a.name).toUpperCase() > (b.name).toUpperCase()) return 1;
+                else return -1;
+            });
+            break;
+        case 'Lat':
+            locs.sort((a, b) => a.id - b.id);
+            break;
+        case 'Lng':
+            locs.sort((a, b) => a.id - b.id);
+            break;
+        case 'Weather':
+            locs.sort((a, b) => a.id - b.id);
+            break;
+        case 'Created':
+            locs.sort((a, b) => a.id - b.id);
+            break;
+        case 'UpdatedAt':
+            locs.sort((a, b) => a.id - b.id);
+            break;
+    }
+    renderTable(locs)
+}
+
+// userNamechaoaasdasd
+
+// function onAskName() {
+//     //opens modal
+//     return Promise.resolve
+// }
+
+// function onSetName() {
+//     onAskName()
+//         .then(name => { name })
+//         locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold')
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+function onDecision(decision) {
+    gResolve(decision);
+    toggleDeleteModal();
+}
+
+function askUser() {
+    toggleDeleteModal();
+    return new Promise((resolve, reject) => {
+        gResolve = resolve;
+    })
+}
+
+function onDeleteHistory() {
+    askUser()
+        .then(decision => {
+            if (decision) {
+                console.log('Deleting history');
+                gSearches = [];
+                renderSearchWords();
+            } else console.log('History kept!');
+        })
+        .catch(err => {
+            console.log('Error:', err);
+        })
 }

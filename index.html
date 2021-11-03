@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TravelTip</title>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
@@ -18,6 +19,26 @@
 
     <p>You are at: <span class="user-pos"></span></p>
     <p>Locations: <span class="locs"></span></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th onclick="onSetSort(this.id)" id="Id" data-trans="id">id</th>
+                <th onclick="onSetSort(this.id)" id="Name" data-trans="name">Name</th>
+                <th onclick="onSetSort(this.id)" id="Lat" data-trans="lat">Lat</th>
+                <th onclick="onSetSort(this.id)" id="Lng" data-trans="lng">Lng</th>
+                <th onclick="onSetSort(this.id)" id="Weather" data-trans="weather">Weather</th>
+                <th onclick="onSetSort(this.id)" id="Created" data-trans="createdAt">Created</th>
+                <th onclick="onSetSort(this.id)" id="UpdatedAt" data-trans="updatedAt">Updated</th>
+                <th colspan="3" data-trans="actions">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-details"></tbody>
+    </table>
+
+
+
+
 
 
 
