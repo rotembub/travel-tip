@@ -170,6 +170,8 @@ function loadCurrLocationFromURL() {
     if (params.has('lat') && params.has('lng')) {
         const lat = +params.get('lat');
         const lng = +params.get('lng');
+        console.log('lat', lat);
+        console.log('lng', lng);
         onPanTo(lat, lng);
     }
 }
