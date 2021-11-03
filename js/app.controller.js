@@ -143,7 +143,8 @@ function onCopyLink() {
             console.log('User position is:', pos.coords);
             const lat = pos.coords.latitude;
             const lng = pos.coords.longitude;
-            navigator.clipboard.writeText(`https://rotembub.github.io/travel-tip/?lat=${lat}?lng=${lng}`);
+            console.log('lat', lat);
+            navigator.clipboard.writeText(`https://rotembub.github.io/travel-tip/?lat=${lat}?lng=${lng}/`);
         })
         .catch(err => {
             console.log('err!!!', err);
