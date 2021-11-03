@@ -1,6 +1,6 @@
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
-import { storageService } from './services/storage-service.js'
+import { storageService } from './services/storage.service.js'
 
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
@@ -10,6 +10,11 @@ window.onGetUserPos = onGetUserPos;
 window.onDeleteLocation = onDeleteLocation; 
 
 function onInit() {
+    var locs = storageService.load('locations');
+    if (locs) {
+        locService.setLocations(locs);
+        renderTable(locs);
+    }
     mapService.initMap()
         .then((res) => {
             let infoWindow = new google.maps.InfoWindow({
@@ -17,8 +22,10 @@ function onInit() {
                 position: { lat: 32.0749831, lng: 34.9120554 },
             });
             res.addListener("click", (mapsMouseEvent) => {
-                // change to modal with promise
                 locService.addLocation(prompt('enter the name'), mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng(), 'cold');
+                onGetLocs();
+                console.log(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng()); ////////////
+                // Close the current InfoWindow.
                 infoWindow.close();
                 infoWindow = new google.maps.InfoWindow({
                     position: mapsMouseEvent.latLng,
@@ -101,7 +108,6 @@ function renderTable(locs) {
     });
     document.querySelector('.table-details').innerHTML = strHtml.join('');
 }
-
 function onDeleteLocation(id) {
     locService.removeLocationById(id);
     onGetLocs();
