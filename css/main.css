@@ -13,7 +13,7 @@ header{
 }
 
 body{
-    background-color: rgb(76, 76, 98);
+    background-color: rgb(71, 52, 62);
     text-align: center;
     font-family: Poppins;
 }
@@ -30,6 +30,9 @@ table , th ,td ,tr{
     color: white;
     border: 1px solid black;
     border-collapse: collapse;
+}
+th{
+    background-color: coral;
 }
 td{
     padding: 5px;
