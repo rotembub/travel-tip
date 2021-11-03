@@ -128,6 +128,7 @@ function onGetCoordByAddress() {
         })
         .catch(console.log)
 }
+
 function onCopyLink() {
     getPosition()
         .then(pos => {
@@ -139,7 +140,7 @@ function onCopyLink() {
         .catch(err => {
             console.log('err!!!', err);
         })
-    /* Copy the text inside the text field */
+        /* Copy the text inside the text field */
 }
 
 
@@ -165,9 +166,9 @@ function onCopyLink() {
 
 function loadCurrLocationFromURL() {
     const params = new URLSearchParams(window.location.search);
-    if (params.has('lat') || params.has('lng')) {
-        const lat = params.get('lat');
-        const lng = params.get('lng');
+    if (params.has('lat') && params.has('lng')) {
+        const lat = +params.get('lat');
+        const lng = +params.get('lng');
         onPanTo(lat, lng);
     }
 }
